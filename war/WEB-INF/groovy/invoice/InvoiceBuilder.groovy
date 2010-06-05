@@ -2,6 +2,10 @@ import com.cghsystems.admin.invoice.InvoiceAdapter;
 import java.text.DateFormat 
 import java.text.SimpleDateFormat 
 
+if (!session) {
+	session = request.getSession(true);
+}
+
 response.setContentType("application/pdf");
 response.setHeader("Content-Disposition"," inline;filename=invoice.pdf")
 
@@ -16,4 +20,7 @@ int days = Integer.valueOf(request.getParameter("days"));
 
 InvoiceAdapter adapter = new InvoiceAdapter();
 OutputStream os = adapter.build(fromDate,toDate,number,days);
-sout.write(os.toByteArray())
+
+def invoice = os.toByteArray()
+session.setAttribute("invoice", invoice)
+sout.write(invoice)

@@ -1,6 +1,9 @@
 package invoice
 html.html() {
-	head { title("Invoice Generator") }
+	head {
+		title "Invoice Generator" 
+		script(type:"text/javascript", src:"../js/jquery-1.4.2.js") {  mkp.yield("Text")  }
+	}
 	
 	body() {
 		p {h1("Invoice Generator") } 
@@ -29,7 +32,7 @@ html.html() {
 					tr {
 						td "To Date:" 
 						td{
-							input(type:"text", size:12, name:"body")
+							input(type:"text", size:12, name:"toDate")
 						}  
 					}
 					tr { 
@@ -42,12 +45,12 @@ html.html() {
 		}
 		
 		div(id:"emailForm") {
-			form(name:"Email", action:"EmailSender.groovy") {
+			form(name:"Email", action:"InvoiceEmailSender.groovy") {
 				table {
 					tr {
 						td "to" 
 						td{
-							input(type:"text", size:50, name:"toAddress", value:"melissa")
+							input(type:"text", size:50, name:"toAddress", value:"hedley.christopher@gmail.com")
 						}  
 					}
 					tr {
@@ -60,6 +63,12 @@ html.html() {
 						td "Attatchment:" 
 						td{
 							input(type:"text", size:50, name:"attatchment")
+						}  
+					}
+					tr {
+						td "Subject:" 
+						td{
+							input(type:"text", size:50, name:"subject", value:"Invoice...")
 						}  
 					}
 					tr {
