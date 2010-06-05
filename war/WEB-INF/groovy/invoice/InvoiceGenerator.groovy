@@ -56,7 +56,7 @@ html.html() {
 					tr {
 						td "from:" 
 						td{
-							input(type:"text", size:50, name:"fromAddress", value:"chris@cghsystems.net")
+							input(type:"text", size:50, name:"fromAddress", value:"hedley.christopher@gmail.com")
 						}  
 					}
 					tr {

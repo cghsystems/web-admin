@@ -35,6 +35,9 @@ ByteArrayDataSource mimePartDataSource = new ByteArrayDataSource (invoice, "apli
 attachment.setDataHandler(new DataHandler(mimePartDataSource));
 mp.addBodyPart(attachment)
 
+MimeBodyPart htmlPart = new MimeBodyPart();
+htmlPart.setContent(body, "text/html");
+mp.addBodyPart(htmlPart);
 
 Message msg = new MimeMessage(mailSession)
 msg.setFrom(new InternetAddress(fromAddress))
