@@ -1,8 +1,6 @@
 package com.cghsystems.email
 ;
 
-import java.util.List;
-
 
 class EmailAttatchment {
 	

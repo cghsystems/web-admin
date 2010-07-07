@@ -1,8 +1,7 @@
 package com.cghsystems.servlet
 
-import javax.servlet.ServletContextEvent 
-
-import net.cghsystems.pdf.PdfComponenets;
+import javax.servlet.ServletContextEvent
+import net.cghsystems.pdf.PdfComponenets
 
 class ServletContextListener implements javax.servlet.ServletContextListener {
 	

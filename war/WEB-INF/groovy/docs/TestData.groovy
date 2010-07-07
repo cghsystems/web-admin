@@ -1,7 +1,7 @@
 package docs
-import com.cghsystems.admin.ds.Document;
-import com.cghsystems.admin.ds.dao.DAO;
 
+import com.cghsystems.admin.ds.Document
+import com.cghsystems.admin.ds.dao.DAO
 
 def date = new Date()
 Document doc = new Document(document:"document", description:"desc", keywords:"keywords", date:date, name:"docname.txt")

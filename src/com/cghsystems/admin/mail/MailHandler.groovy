@@ -1,8 +1,7 @@
 package com.cghsystems.admin.mail
 ;
 
-import javax.mail.internet.MimeMessage;
-
+import javax.mail.internet.MimeMessage
 
 interface MailHandler {
 	

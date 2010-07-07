@@ -1,10 +1,7 @@
 package docs
 
-
-
-import com.cghsystems.admin.ds.Document;
-import com.cghsystems.admin.ds.dao.DAO 
-
+import com.cghsystems.admin.ds.Document
+import com.cghsystems.admin.ds.dao.DAO
 
 html.html() {
 	

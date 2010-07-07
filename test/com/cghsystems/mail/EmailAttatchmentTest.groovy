@@ -1,11 +1,9 @@
 package com.cghsystems.mail;
 
-import org.junit.Test;
 
-import com.cghsystems.email.EmailAttatchment;
-
-
-import static org.junit.Assert.*;
+import com.cghsystems.email.EmailAttatchment
+import org.junit.Test
+import static org.junit.Assert.assertEquals
 
 class EmailAttatchmentTest {
 	

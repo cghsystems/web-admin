@@ -1,13 +1,11 @@
-import com.cghsystems.admin.invoice.InvoiceAdapter;
-import java.text.DateFormat 
-import java.text.SimpleDateFormat 
+import com.cghsystems.admin.invoice.InvoiceAdapter
+import java.text.DateFormat
+import java.text.SimpleDateFormat
 
 if (!session) {
 	session = request.getSession(true);
 }
 
-response.setContentType("application/pdf");
-response.setHeader("Content-Disposition"," inline;filename=invoice.pdf")
 
 
 DateFormat df = new SimpleDateFormat("dd/MM/yyyy")
@@ -17,6 +15,9 @@ Date fromDate = df.parse(request.getParameter("fromDate"));
 
 int number = Integer.valueOf(request.getParameter("number"));
 int days = Integer.valueOf(request.getParameter("days"));
+
+response.setContentType("application/pdf");
+response.setHeader("Content-Disposition"," inline;filename=cghsystems-invoice-${number}.pdf")
 
 InvoiceAdapter adapter = new InvoiceAdapter();
 OutputStream os = adapter.build(fromDate,toDate,number,days);

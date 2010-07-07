@@ -2,9 +2,10 @@ package com.cghsystems.admin.ds;
 
 
 import com.google.appengine.api.datastore.Blob;
-import org.junit.Test 
 
-import static org.junit.Assert.*;
+
+import org.junit.Test
+import static org.junit.Assert.assertEquals
 
 class DocumentTest {
 	

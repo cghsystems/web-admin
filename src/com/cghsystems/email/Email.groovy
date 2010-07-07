@@ -1,13 +1,11 @@
 package com.cghsystems.email
 ;
 
-import java.util.logging.Logger;
 
 import javax.mail.Multipart;
 import javax.mail.Part;
-import javax.mail.internet.MimeMessage;
-
-
+import javax.mail.internet.MimeMessage
+import java.util.logging.Logger
 
 class Email {
 	

@@ -2,14 +2,11 @@ package com.cghsystems.admin.ds.dao
 ;
 
 
-import java.util.logging.Logger;
-
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
-import javax.jdo.Query;
-
-
+import javax.jdo.Query
+import java.util.logging.Logger
 
 class DAO<T> {
 	

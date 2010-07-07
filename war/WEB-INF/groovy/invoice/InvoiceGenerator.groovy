@@ -1,4 +1,5 @@
 package invoice
+
 html.html() {
 	head {
 		title "Invoice Generator" 

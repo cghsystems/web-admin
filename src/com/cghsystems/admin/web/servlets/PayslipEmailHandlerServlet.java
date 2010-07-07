@@ -1,9 +1,7 @@
 package com.cghsystems.admin.web.servlets;
 
-import java.io.IOException;
-import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import com.cghsystems.admin.mail.MailHandler;
+import com.cghsystems.admin.mail.payslip.PayslipMailHandler;
 
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -11,9 +9,10 @@ import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.cghsystems.admin.mail.MailHandler;
-import com.cghsystems.admin.mail.payslip.PayslipMailHandler;
+import java.io.IOException;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class PayslipEmailHandlerServlet extends HttpServlet {
 

@@ -1,14 +1,11 @@
 package com.cghsystems.admin.mail.payslip
 
-
-import com.cghsystems.admin.ds.Document;
-import com.cghsystems.admin.ds.dao.DAO 
-import com.cghsystems.admin.mail.MailHandler 
-import com.cghsystems.email.Email;
-import com.cghsystems.email.EmailAttatchment 
-import java.util.Date;
-import javax.mail.internet.MimeMessage;
-
+import javax.mail.internet.MimeMessage
+import com.cghsystems.admin.ds.Document
+import com.cghsystems.admin.ds.dao.DAO
+import com.cghsystems.admin.mail.MailHandler
+import com.cghsystems.email.Email
+import com.cghsystems.email.EmailAttatchment
 
 class PayslipMailHandler implements MailHandler {
 	
@@ -20,7 +17,7 @@ class PayslipMailHandler implements MailHandler {
 	void process(MimeMessage msg) {
 		
 		Email email = new Email(msg:msg);
-		EmailAttatchment at = email.getAttatchment()
+		EmailAttatchment at = email.attatchment
 		
 		String lines = at.getAttatchment()
 		String desc = getDesc(at);

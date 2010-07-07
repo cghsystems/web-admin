@@ -1,7 +1,5 @@
-import javax.mail.internet.InternetAddress 
-import java.util.logging.Logger
+import javax.mail.internet.InternetAddress
 
-import javax.activation.DataHandler;
 import javax.mail.Message
 import javax.mail.Multipart
 import javax.mail.Session
@@ -10,7 +8,9 @@ import javax.mail.internet.InternetAddress
 import javax.mail.internet.MimeBodyPart
 import javax.mail.internet.MimeMessage
 import javax.mail.internet.MimeMultipart
-import javax.mail.util.ByteArrayDataSource;
+import javax.mail.util.ByteArrayDataSource
+import java.util.logging.Logger
+import javax.activation.DataHandler
 
 private Logger log = Logger.getLogger("InvoiceEmailHandler")
 
