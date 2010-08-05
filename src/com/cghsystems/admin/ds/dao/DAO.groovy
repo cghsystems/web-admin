@@ -12,9 +12,9 @@ class DAO<T> {
 	
 	private Logger log = Logger.getLogger("DAO")
 	
-	static PersistenceManagerFactory daoF =  JDOHelper.getPersistenceManagerFactory("transactions-optional")
+	private static final PersistenceManagerFactory daoF =  JDOHelper.getPersistenceManagerFactory("transactions-optional")
 	
-	PersistenceManager dao = daoF.getPersistenceManager();
+	private final PersistenceManager dao = daoF.getPersistenceManager();
 	
 	def save(T persistent) {
 		log.info("Saving ${persistent} ...")
