@@ -1,5 +1,9 @@
 package invoice
 
+import com.cghsystems.admin.invoice.InvoiceId 
+
+def invoiceId = new InvoiceId();
+
 html.html() {
 	head {
 		title "Invoice Generator" 
@@ -15,7 +19,7 @@ html.html() {
 					tr {
 						td "Invoice Number:" 
 						td{
-							input(type:"text", size:3, name:"number")
+							input(type:"text", size:3, name:"number", value:invoiceId.nextId())
 						}  
 					}
 					tr {

@@ -25,8 +25,15 @@ class DAO<T> {
 	
 	def findObjects(Class clazz) {
 		log.info("Locating ${clazz}")
+		dao.lo
 		Query query = dao.newQuery(clazz)
 		return query.execute();
+	}
+	
+	T findObject(Class clazz) {
+		log.info("Locating single class ${clazz}")
+		Query query = dao.newQuery(clazz)
+		return query.execute().get(0);
 	}
 	
 	def delete(T persistent) {
