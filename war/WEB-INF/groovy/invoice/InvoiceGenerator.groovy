@@ -1,13 +1,18 @@
 package invoice
 
+
 import com.cghsystems.admin.invoice.InvoiceId 
+import com.cghsystems.admin.invoice.InvoiceTemplate;
+import net.cghsystems.inv.Invoice 
 
 def invoiceId = new InvoiceId();
+def invoice = new Invoice(taxPointDate2: new Date())
+def invoiceTemplate = new InvoiceTemplate(invoice:invoice)
 
 html.html() {
 	head {
 		title "Invoice Generator" 
-		script(type:"text/javascript", src:"../js/jquery-1.4.2.js") {  mkp.yield("Text")  }
+		script(type:"text/javascript", src:"../js/jquery-1.4.2.js") {  mkp.yield("Text") }
 	}
 	
 	body() {
@@ -36,8 +41,8 @@ html.html() {
 					}
 					tr {
 						td "To Date:" 
-						td{
-							input(type:"text", size:12, name:"toDate")
+						td { 
+							input(type:"text", size:12, name:"toDate") 
 						}  
 					}
 					tr { 
@@ -49,13 +54,13 @@ html.html() {
 			}
 		}
 		
-		div(id:"emailForm") {
+		div(id:"emailForm", style:"display: show") {
 			form(name:"Email", action:"InvoiceEmailSender.groovy") {
 				table {
 					tr {
 						td "to" 
 						td{
-							input(type:"text", size:50, name:"toAddress", value:"hedley.christopher@gmail.com")
+							input(type:"text", size:50, name:"toAddress", value:"${invoice.client.contact.name}")
 						}  
 					}
 					tr {
@@ -73,13 +78,15 @@ html.html() {
 					tr {
 						td "Subject:" 
 						td{
-							input(type:"text", size:50, name:"subject", value:"Invoice...")
+							input(type:"text", size:50, name:"subject", value:invoiceTemplate.subject())
 						}  
 					}
 					tr {
 						td "Body" 
 						td{
-							input(type:"text", size:100, name:"body", value:"Hi...")
+							textarea(name:"body", cols:49, rows:14) {
+								mkp.yield( invoiceTemplate.body() )
+							}
 						}    
 					}
 					tr { 
@@ -91,6 +98,6 @@ html.html() {
 			}
 		}
 		
-		div(id:"emailSent") { p("Email Sent") }
+		div(id:"emailSent", style:"display: show") { p("Email Sent") }
 	}
 }
