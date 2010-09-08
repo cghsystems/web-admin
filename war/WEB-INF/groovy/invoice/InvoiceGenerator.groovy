@@ -9,14 +9,28 @@ def invoiceId = new InvoiceId();
 def invoice = new Invoice(taxPointDate2: new Date())
 def invoiceTemplate = new InvoiceTemplate(invoice:invoice)
 
+def js = '''
+	$(document).ready(function() {
+		$("#emailForm").hide()
+		$("#emailSent").hide()
+	});
+	
+    $('#Generate').click(function() {
+	  $('#emailForm').show();
+	});
+	
+	'''
+
 html.html() {
 	head {
 		title "Invoice Generator" 
-		script(type:"text/javascript", src:"../js/jquery-1.4.2.js") {  mkp.yield("Text") }
+		script(type:"text/javascript", src:"/js/jquery-1.4.2.js") {  mkp.yield( "" ) }
+		script(type:"text/javascript") { mkp.yield(js) }
 	}
 	
 	body() {
-		p {h1("Invoice Generator") } 
+		
+		p { h1("Invoice Generator") } 
 		
 		div(id:"pdfForm") {
 			form(name:"Generate", action:"InvoiceBuilder.groovy") {
@@ -54,7 +68,7 @@ html.html() {
 			}
 		}
 		
-		div(id:"emailForm", style:"display: show") {
+		div(id:"emailForm") {
 			form(name:"Email", action:"InvoiceEmailSender.groovy") {
 				table {
 					tr {
@@ -98,6 +112,6 @@ html.html() {
 			}
 		}
 		
-		div(id:"emailSent", style:"display: show") { p("Email Sent") }
+		div(id:"emailSent") { p("Email Sent") }
 	}
 }
