@@ -2,23 +2,42 @@ package invoice
 
 
 import com.cghsystems.admin.invoice.InvoiceId 
-import com.cghsystems.admin.invoice.InvoiceTemplate;
-import net.cghsystems.inv.Invoice 
 
 def invoiceId = new InvoiceId();
-def invoice = new Invoice(taxPointDate2: new Date())
-def invoiceTemplate = new InvoiceTemplate(invoice:invoice)
 
 def js = '''
 	$(document).ready(function() {
+	
 		$("#emailForm").hide()
 		$("#emailSent").hide()
+	
+	    $("#invoice-generator").click(function() { 
+	    	 var number = $("#number").val()
+	         var days = $("#days").val()
+        	 var fromDate = $("#fromDate").val()
+	         var toDate = $("#toDate").val()
+	         submit(days, number, fromDate, toDate)	    	
+	    });
 	});
 	
-    $('#Generate').click(function() {
-	  $('#emailForm').show();
-	});
+	function submit(days, number, fromDate, toDate) {
+		$.ajax({ url: "InvoiceBuilder.groovy", context: document.body, data: {number: number, days: days, toDate: toDate, fromDate:"12/12/20210"  }, success: function(response){
+            
+        	 var subject = $(response).find("subject").text()
+        	 $("#subject").val(subject)
+
+        	 var emailBody = $(response).find("emailBody").text()
+       	     $("#body").val(emailBody)
+
+       	     var toAddress = $(response).find("toAddress").text()
+       	     $("#toAddress").val(toAddress)
 	
+       	     var attatchment = $(response).find("attatchment-name").text()
+    	     $("#attatchment").val(attatchment)
+       	  
+	         $("#emailForm").show()
+         }});	
+    }
 	'''
 
 html.html() {
@@ -33,37 +52,35 @@ html.html() {
 		p { h1("Invoice Generator") } 
 		
 		div(id:"pdfForm") {
-			form(name:"Generate", action:"InvoiceBuilder.groovy") {
-				table {
-					tr {
-						td "Invoice Number:" 
-						td{
-							input(type:"text", size:3, name:"number", value:invoiceId.nextId())
-						}  
-					}
-					tr {
-						td "Days:" 
-						td{
-							input(type:"text", size:3, name:"days")
-						}  
-					}
-					tr {
-						td "From Date:" 
-						td{
-							input(type:"text", size:12, name:"fromDate")
-						}  
-					}
-					tr {
-						td "To Date:" 
-						td { 
-							input(type:"text", size:12, name:"toDate") 
-						}  
-					}
-					tr { 
-						td{
-							input(type:"submit", name:"invoice-generator", value:"Generate")
-						}  
-					}
+			table {
+				tr {
+					td "Invoice Number:" 
+					td{
+						input(type:"text", size:3, name:"number", id:"number", value:invoiceId.nextId())
+					}  
+				}
+				tr {
+					td "Days:" 
+					td{
+						input(type:"text", size:3, name:"days", id:"days")
+					}  
+				}
+				tr {
+					td "From Date:" 
+					td{
+						input(type:"text", size:12, name:"fromDate", id:"fromDate")
+					}  
+				}
+				tr {
+					td "To Date:" 
+					td { 
+						input(type:"text", size:12, name:"toDate", id:"toDate") 
+					}  
+				}
+				tr { 
+					td{
+						button(id:"invoice-generator") { mkp.yield("Generate") }
+					}  
 				}
 			}
 		}
@@ -74,7 +91,7 @@ html.html() {
 					tr {
 						td "to" 
 						td{
-							input(type:"text", size:50, name:"toAddress", value:"${invoice.client.contact.name}")
+							input(type:"text", size:50, name:"toAddress", id:"toAddress")
 						}  
 					}
 					tr {
@@ -86,26 +103,24 @@ html.html() {
 					tr {
 						td "Attatchment:" 
 						td{
-							input(type:"text", size:50, name:"attatchment")
+							input(type:"text", size:50, name:"attatchment", id:"attatchment")
 						}  
 					}
 					tr {
 						td "Subject:" 
 						td{
-							input(type:"text", size:50, name:"subject", value:invoiceTemplate.subject())
+							input(type:"text", size:50, id:"subject", name:"subject")
 						}  
 					}
 					tr {
 						td "Body" 
 						td{
-							textarea(name:"body", cols:49, rows:14) {
-								mkp.yield( invoiceTemplate.body() )
-							}
+							textarea(name:"body", id:"body", cols:49, rows:14){ mkp.yield("")}
 						}    
 					}
 					tr { 
 						td{
-							input(type:"submit", name:"email", value:"Send Email")
+							button(name:"email") { mkp.yield("Send Email") }
 						}  
 					}
 				}

@@ -1,27 +1,32 @@
-import com.cghsystems.admin.invoice.InvoiceAdapter
-import java.text.DateFormat
-import java.text.SimpleDateFormat
+import com.cghsystems.admin.invoice.InvoiceTemplate 
+import java.text.DateFormat 
+import java.text.SimpleDateFormat 
+import net.cghsystems.inv.Invoice 
+
+
 
 if (!session) {
 	session = request.getSession(true);
 }
 
 
-
 DateFormat df = new SimpleDateFormat("dd/MM/yyyy")
 
 Date toDate = df.parse(request.getParameter("toDate"));
 Date fromDate = df.parse(request.getParameter("fromDate"));
-
 int number = Integer.valueOf(request.getParameter("number"));
 int days = Integer.valueOf(request.getParameter("days"));
 
-response.setContentType("application/pdf");
-response.setHeader("Content-Disposition"," inline;filename=cghsystems-invoice-${number}.pdf")
+def invoice = new Invoice(taxPointDate2: toDate)
+def invoiceTemplate = new InvoiceTemplate(invoice:invoice)
 
-InvoiceAdapter adapter = new InvoiceAdapter();
-OutputStream os = adapter.build(fromDate,toDate,number,days);
+//response.setContentType("application/pdf");
+//response.setHeader("Content-Disposition"," inline;filename=cghsystems-invoice-${number}.pdf")
+response.getWriter().write("<res><toAddress>melissa@datainc.com</toAddress><subject>${invoiceTemplate.subject()}</subject><emailBody>${invoiceTemplate.body()}</emailBody><attatchment-name>cghsystems-invoice-${number}.pdf</attatchment-name></res>"); 
 
-def invoice = os.toByteArray()
-session.setAttribute("invoice", invoice)
-sout.write(invoice)
+//InvoiceAdapter adapter = new InvoiceAdapter();
+//OutputStream os = adapter.build(fromDate,toDate,number,days);
+//
+//def invoice = os.toByteArray()
+//session.setAttribute("invoice", invoice)
+//sout.write(invoice)
