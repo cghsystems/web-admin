@@ -19,16 +19,16 @@ String fromAddress = request.getParameter("fromAddress")
 String subject = request.getParameter("subject")
 String body = request.getParameter("body")
 
-
 Properties properties = new Properties()
 Session mailSession = Session.getDefaultInstance(properties, null)
 mailSession.setDebug(true)
 
 def invoice = session.getAttribute("invoice")
+String name = session.getAttribute("invoice-name")
 
 Multipart mp = new MimeMultipart("related")
 MimeBodyPart attachment = new MimeBodyPart()
-attachment.setFileName("invoice.pdf")
+attachment.setFileName(name)
 attachment.setContent(invoice, "application/pdf")
 attachment.setHeader("Content-ID","<pdf>")
 ByteArrayDataSource mimePartDataSource = new ByteArrayDataSource (invoice, "aplication/pdf"); 
@@ -49,3 +49,5 @@ msg.setContent(mp)
 log.info  "Sending invoice email"
 Transport.send(msg)
 log.info "Invoice email sent"
+
+response.getWriter().write("Email Sent");

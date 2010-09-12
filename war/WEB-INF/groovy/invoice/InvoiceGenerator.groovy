@@ -7,21 +7,64 @@ def invoiceId = new InvoiceId();
 
 def js = '''
 	$(document).ready(function() {
+	     
+		$("#email-form").hide()
+		$("#email-sent").dialog( { autoOpen: false, modal: true, title: "Email Sent" } )
 	
-		$("#emailForm").hide()
-		$("#emailSent").hide()
+		$("#view-invoice").hide()
+	    $('#view-invoice').click(function() { 
+	    	window.open("InvoicePreview.groovy");
+	    });
+
+	
+		$('#fromDate').datepicker()
+		$('#toDate').datepicker()
+		$('#invoice-generator').button()
+		
+	    $('#send-email').button()
+		$('#send-email').attr('disabled', true);
 	
 	    $("#invoice-generator").click(function() { 
 	    	 var number = $("#number").val()
 	         var days = $("#days").val()
         	 var fromDate = $("#fromDate").val()
 	         var toDate = $("#toDate").val()
-	         submit(days, number, fromDate, toDate)	    	
+	         buildEmailTemplate(days, number, fromDate, toDate)
+	         buildPdfAttatchment(days, number, fromDate, toDate)
+	    });
+	
+	    $('#send-email').button()
+	    $('#send-email').attr('disabled', true);
+	    $('#send-email').click(function() {
+	         var toAddress = $('#toAddress').val()
+	         var fromAddress = $('#fromAddress').val()
+	         var subject = $('#subject').val()
+	         var body = $('#body').val()
+	         sendEmail(toAddress, fromAddress, subject, body)
 	    });
 	});
+
+    function sendEmail(toAddress, fromAddress, subject, body) {     
+	     
+	     $.ajax({ url: "InvoiceEmailSender.groovy", data: {toAddress:toAddress, fromAddress:fromAddress, subject:subject, body:body }, success: function(response){
+             $('#email-sent').dialog('open')
+	     }});
+    }
 	
-	function submit(days, number, fromDate, toDate) {
-		$.ajax({ url: "InvoiceBuilder.groovy", context: document.body, data: {number: number, days: days, toDate: toDate, fromDate:"12/12/20210"  }, success: function(response){
+    function buildPdfAttatchment(days, number, fromDate, toDate) {
+	     $.ajax({ url: "InvoicePdfBuilder.groovy", data: {number: number, days: days, toDate: toDate, fromDate:"12/12/20210"  }, success: function(response){
+	         var attatchment = $(response).find("attatchment-name").text()
+	
+	         $("#attatchment").val(attatchment)
+	         $('#attatchment-building').hide()
+	         $('#view-invoice').show()
+	
+	         $('#send-email').removeAttr('disabled');
+         }});	
+    }
+	
+	function buildEmailTemplate(days, number, fromDate, toDate) {
+		$.ajax({ url: "InvoiceBuilder.groovy", data: {number: number, days: days, toDate: toDate, fromDate:"12/12/20210"  }, success: function(response){
             
         	 var subject = $(response).find("subject").text()
         	 $("#subject").val(subject)
@@ -31,11 +74,8 @@ def js = '''
 
        	     var toAddress = $(response).find("toAddress").text()
        	     $("#toAddress").val(toAddress)
-	
-       	     var attatchment = $(response).find("attatchment-name").text()
-    	     $("#attatchment").val(attatchment)
        	  
-	         $("#emailForm").show()
+	         $("#email-form").show("slow")
          }});	
     }
 	'''
@@ -43,7 +83,9 @@ def js = '''
 html.html() {
 	head {
 		title "Invoice Generator" 
-		script(type:"text/javascript", src:"/js/jquery-1.4.2.js") {  mkp.yield( "" ) }
+		link(type:"text/css", rel:"stylesheet", href:"http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/redmond/jquery-ui.css")
+		script(type:"text/javascript", src:"http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js") {  mkp.yield( "" ) }
+		script(type:"text/javascript", src:"http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.4/jquery-ui.min.js") {  mkp.yield( "" ) }
 		script(type:"text/javascript") { mkp.yield(js) }
 	}
 	
@@ -85,48 +127,52 @@ html.html() {
 			}
 		}
 		
-		div(id:"emailForm") {
-			form(name:"Email", action:"InvoiceEmailSender.groovy") {
-				table {
-					tr {
-						td "to" 
-						td{
-							input(type:"text", size:50, name:"toAddress", id:"toAddress")
-						}  
+		div(id:"email-form") {
+			table {
+				tr {
+					td "to" 
+					td{
+						input(type:"text", size:50, name:"toAddress", id:"toAddress")
+					}  
+				}
+				tr {
+					td "from:" 
+					td{
+						input(type:"text", size:50, id:"fromAddress", name:"fromAddress", value:"hedley.christopher@gmail.com")
+					}  
+				}
+				tr {
+					td "Attatchment:" 
+					td{
+						input(type:"text", size:50, name:"attatchment", id:"attatchment")
 					}
-					tr {
-						td "from:" 
-						td{
-							input(type:"text", size:50, name:"fromAddress", value:"hedley.christopher@gmail.com")
-						}  
-					}
-					tr {
-						td "Attatchment:" 
-						td{
-							input(type:"text", size:50, name:"attatchment", id:"attatchment")
-						}  
-					}
-					tr {
-						td "Subject:" 
-						td{
-							input(type:"text", size:50, id:"subject", name:"subject")
-						}  
-					}
-					tr {
-						td "Body" 
-						td{
-							textarea(name:"body", id:"body", cols:49, rows:14){ mkp.yield("")}
-						}    
-					}
-					tr { 
-						td{
-							button(name:"email") { mkp.yield("Send Email") }
-						}  
-					}
+					td {
+						div(id:"attatchment-building") {
+							img(src:"/images/wait20.gif", alt:"Building...")
+						}
+						span(id:"view-invoice", class:"ui-icon ui-icon-document")
+					}  
+				}
+				tr {
+					td "Subject:" 
+					td{
+						input(type:"text", size:50, id:"subject", name:"subject")
+					}  
+				}
+				tr {
+					td "Body" 
+					td{
+						textarea(name:"body", id:"body", cols:49, rows:14){ mkp.yield("") }
+					}    
+				}
+				tr { 
+					td{
+						button(id:"send-email") { mkp.yield("Send Email") }
+					}  
 				}
 			}
 		}
 		
-		div(id:"emailSent") { p("Email Sent") }
+		div(id:"email-sent") { p("Your invoice has been sent") }
 	}
 }
