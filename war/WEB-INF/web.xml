@@ -49,4 +49,9 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		</auth-constraint>
 	</security-constraint>
 
+	<error-page>
+		<error-code>403</error-code>
+		<location>/static/errors/403-error.html</location>
+	</error-page>
+
 </web-app>
