@@ -36,14 +36,14 @@ attachment.setDataHandler(new DataHandler(mimePartDataSource));
 mp.addBodyPart(attachment)
 
 MimeBodyPart htmlPart = new MimeBodyPart();
-htmlPart.setContent(body, "text/html");
+htmlPart.setContent(body, "text/plain");
 mp.addBodyPart(htmlPart);
 
 Message msg = new MimeMessage(mailSession)
 msg.setFrom(new InternetAddress(fromAddress))
 msg.addRecipient(Message.RecipientType.TO, new InternetAddress(to))
 msg.setSubject(subject)
-msg.setText(body)
+msg.setText(body, "text/plain")
 msg.setContent(mp)
 
 log.info  "Sending invoice email"

@@ -17,8 +17,8 @@ def js = '''
 	    });
 
 	
-		$('#fromDate').datepicker()
-		$('#toDate').datepicker()
+		$('#fromDate').datepicker({ dateFormat: 'dd/mm/yy' })
+		$('#toDate').datepicker({ dateFormat: 'dd/mm/yy' })
 		$('#invoice-generator').button()
 		
 	    $('#send-email').button()
@@ -52,7 +52,7 @@ def js = '''
     }
 	
     function buildPdfAttatchment(days, number, fromDate, toDate) {
-	     $.ajax({ url: "InvoicePdfBuilder.groovy", data: {number: number, days: days, toDate: toDate, fromDate:"12/12/20210"  }, success: function(response){
+	     $.ajax({ url: "InvoicePdfBuilder.groovy", data: {number: number, days: days, toDate: toDate, fromDate: fromDate }, success: function(response){
 	         var attatchment = $(response).find("attatchment-name").text()
 	
 	         $("#attatchment").val(attatchment)
@@ -64,7 +64,7 @@ def js = '''
     }
 	
 	function buildEmailTemplate(days, number, fromDate, toDate) {
-		$.ajax({ url: "InvoiceBuilder.groovy", data: {number: number, days: days, toDate: toDate, fromDate:"12/12/20210"  }, success: function(response){
+		$.ajax({ url: "InvoiceBuilder.groovy", data: {number: number, days: days, toDate: toDate, fromDate: fromDate }, success: function(response){
             
         	 var subject = $(response).find("subject").text()
         	 $("#subject").val(subject)
