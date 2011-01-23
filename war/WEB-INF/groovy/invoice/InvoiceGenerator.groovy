@@ -12,7 +12,7 @@ def js = '''
 		$("#email-sent").dialog( { autoOpen: false, modal: true, title: "Email Sent" } )
 	
 		$("#view-invoice").hide()
-	    $('#view-invoice').click(function() { 
+	        $('#view-invoice').click(function() { 
 	    	window.open("InvoicePreview.groovy");
 	    });
 
@@ -37,16 +37,17 @@ def js = '''
 	    $('#send-email').attr('disabled', true);
 	    $('#send-email').click(function() {
 	         var toAddress = $('#toAddress').val()
-	         var fromAddress = $('#fromAddress').val()
+	         var ccAddress = $('#ccAddress').val()         
+                 var fromAddress = $('#fromAddress').val()
 	         var subject = $('#subject').val()
 	         var body = $('#body').val()
-	         sendEmail(toAddress, fromAddress, subject, body)
+	         sendEmail(toAddress, ccAddress, fromAddress, subject, body)
 	    });
 	});
 
-    function sendEmail(toAddress, fromAddress, subject, body) {     
+    function sendEmail(toAddress, ccAddress, fromAddress, subject, body) {     
 	     
-	     $.ajax({ url: "InvoiceEmailSender.groovy", data: {toAddress:toAddress, fromAddress:fromAddress, subject:subject, body:body }, success: function(response){
+	     $.ajax({ url: "InvoiceEmailSender.groovy", data: {toAddress:toAddress, ccAddress:ccAddress, fromAddress:fromAddress, subject:subject, body:body }, success: function(response){
              $('#email-sent').dialog('open')
 	     }});
     }
@@ -70,10 +71,13 @@ def js = '''
         	 $("#subject").val(subject)
 
         	 var emailBody = $(response).find("emailBody").text()
-       	     $("#body").val(emailBody)
+       	         $("#body").val(emailBody)
 
-       	     var toAddress = $(response).find("toAddress").text()
-       	     $("#toAddress").val(toAddress)
+       	         var ccAddress = $(response).find("ccAddress").text()
+	         $("#ccAddress").val(ccAddress)
+    
+       	         var toAddress = $(response).find("toAddress").text()
+       	         $("#toAddress").val(toAddress)
        	  
 	         $("#email-form").show("slow")
          }});	
@@ -133,6 +137,12 @@ html.html() {
 					td "to" 
 					td{
 						input(type:"text", size:50, name:"toAddress", id:"toAddress")
+					}  
+				}
+				tr {
+					td "cc" 
+					td{
+						input(type:"text", size:50, name:"ccAddress", id:"ccAddress")
 					}  
 				}
 				tr {

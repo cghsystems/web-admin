@@ -15,6 +15,7 @@ import javax.activation.DataHandler
 private Logger log = Logger.getLogger("InvoiceEmailHandler")
 
 String to = request.getParameter("toAddress")
+String cc = request.getParameter("ccAddress")
 String fromAddress = request.getParameter("fromAddress")
 String subject = request.getParameter("subject")
 String body = request.getParameter("body")
@@ -42,6 +43,7 @@ mp.addBodyPart(htmlPart);
 Message msg = new MimeMessage(mailSession)
 msg.setFrom(new InternetAddress(fromAddress))
 msg.addRecipient(Message.RecipientType.TO, new InternetAddress(to))
+msg.addRecipient(Message.RecipientType.CC, new InternetAddress(cc))
 msg.setSubject(subject)
 msg.setText(body, "text/plain")
 msg.setContent(mp)
