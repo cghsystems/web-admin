@@ -8,6 +8,40 @@
     <link rel="stylesheet" media="screen,projection" type="text/css" href="./css/cgh.css" />
     <link rel="shortcut icon" href="ico.ico"/>
     <title>CGH Systems - Home</title>
+    
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+    <script type="text/javascript">
+    jQuery(function($) {
+        var open = false;
+        $('#legalLink').click(function () {
+            if(open === false) {
+                $('#footerSlideContent').animate({ height: '300px' });
+                $(this).css('backgroundPosition', 'bottom left');
+                open = true;
+            } else {
+                $('#footerSlideContent').animate({ height: '0px' });
+                $(this).css('backgroundPosition', 'top left');
+                open = false;
+            }
+        });     
+    });
+    
+    function show() {
+    
+    }
+    
+    function hide() {
+    
+    }
+    
+    </script>
+    
+    <style type="text/css">
+
+</style>
+    
+    
+    
 </head>
 
 <body>
@@ -19,26 +53,23 @@
 <div id="contact"><span><a href="mailto:info@cghsystems.net">info@cghsystems.net</a> | Tel: 07828030854</span></div>
 
  <h2>What we do</h2>
- <h2>What we do</h2>
   <p>
    CGH Systems are a small Software development consultancy who specialise in delivering bespoke software. We specialise in XP processes including Scrum and Agile.
   </p>
   <ul>
     <li><a href="#">About this web site (coming soon)</a></li>
-    <li><a href="invoice/InvoiceGenerator.groovy">Admin</a></li>
+    <li><a href="/static/admin/Admin.html">Admin</a></li>
     <li><a href="#">Blog (coming soon)</a></li>
   </ul>
-  <br />    
 
   <h2>Our clients</h2>
 CGH Systems have carried out work for PCTFILER, Stan James and UBS Investment Bank
-  <br /><br /> 
- </div>
- 
- <div class="footer">
-   Copyright © 2010 CGH Systems.net | <a href='#'>Legal</a> | <a href='#'>Site Map</a> | <a href='#'>Contact us</a> 
  </div>
 
- </div><!-- /main -->
+ </div>
+ 
+
+
+ 
 </body>
 </html>
